@@ -5,9 +5,12 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.google.android.agera.Observable;
-import com.google.android.agera.Preconditions;
+import com.google.android.agera.Updatable;
 
 import java.util.concurrent.Executor;
+
+import static com.google.android.agera.Preconditions.checkNotNull;
+import static com.google.android.agera.Preconditions.checkState;
 
 /**
  * Created by Administrator on 2016/10/24.
@@ -23,7 +26,7 @@ public final class ClickCompiler implements
 
     @NonNull
     public static ClickCompilerStates.RClickView compiler(){
-        Preconditions.checkNotNull(Looper.myLooper());
+        checkState(Looper.myLooper() != null, "Can only be compiler on a Looper thread");
         ClickCompiler compiler = compilers.get();
         if (compiler == null){
             compiler = new ClickCompiler();
@@ -37,6 +40,12 @@ public final class ClickCompiler implements
         compilers.set(compiler);
     }
 
+    private ClickCompiler(){
+        this.view = null;
+        this.frequency = 0;
+        this.executor = null;
+    }
+
     private int frequency;
 
     private View view;
@@ -45,8 +54,22 @@ public final class ClickCompiler implements
 
     @NonNull
     @Override
-    public ClickCompilerStates.RFrequency click(@NonNull View view) {
-        this.view = Preconditions.checkNotNull(view);
+    public ClickCompiler click(@NonNull View view) {
+        this.view = checkNotNull(view);
+        return this;
+    }
+
+    @NonNull
+    @Override
+    public ClickCompiler goTo(@NonNull Executor executor) {
+        this.executor = checkNotNull(executor);
+        return this;
+    }
+
+    @NonNull
+    @Override
+    public ClickCompiler onUpdatesPer(int millis) {
+        frequency = Math.max(0,millis);
         return this;
     }
 
@@ -58,30 +81,16 @@ public final class ClickCompiler implements
         return observable;
     }
 
+    @Override
+    public void addUpdatable(@NonNull Updatable updatable) {
+        Observable observable = compile();
+        observable.addUpdatable(updatable);
+    }
+
     private Observable compileObservableAndReset() {
         Observable observable = new ClickObservable(view,executor,frequency);
         view = null;
         frequency = 0;
         return observable;
-    }
-
-    @NonNull
-    @Override
-    public ClickCompilerStates.RConfig goTo(@NonNull Executor executor) {
-        this.executor = Preconditions.checkNotNull(executor);
-        return this;
-    }
-
-    @NonNull
-    @Override
-    public ClickCompilerStates.RFlow onUpdatesPer(int millis) {
-        frequency = Math.max(0,millis);
-        return this;
-    }
-
-    @NonNull
-    @Override
-    public ClickCompilerStates.RFlow onUpdatesPerLoop() {
-        return onUpdatesPer(0);
     }
 }

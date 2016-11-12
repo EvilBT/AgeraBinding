@@ -1,5 +1,8 @@
 package xyz.zpayh.ageraView;
 
+import android.support.annotation.NonNull;
+import android.view.View;
+
 import xyz.zpayh.ageraView.click.ClickCompiler;
 import xyz.zpayh.ageraView.click.ClickCompilerStates;
 import xyz.zpayh.ageraView.textwatcher.TextWatcherCompiler;
@@ -16,8 +19,8 @@ import xyz.zpayh.ageraView.textwatcher.TextWatcherCompilerStates;
 
 public final class AgeraViews {
 
-    public static ClickCompilerStates.RClickView compilerClick(){
-        return ClickCompiler.compiler();
+    public static ClickCompilerStates.RFrequency click(@NonNull View view){
+        return ClickCompiler.compiler().click(view);
     }
 
     public static TextWatcherCompilerStates.RTextWatcher compilerTextWatcher(){

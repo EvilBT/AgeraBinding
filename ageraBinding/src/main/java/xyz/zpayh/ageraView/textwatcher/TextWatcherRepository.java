@@ -8,9 +8,10 @@ import android.widget.TextView;
 import com.google.android.agera.BaseObservable;
 import com.google.android.agera.Observable;
 import com.google.android.agera.Observables;
-import com.google.android.agera.Preconditions;
 import com.google.android.agera.Repository;
 import com.google.android.agera.Updatable;
+
+import static com.google.android.agera.Preconditions.checkNotNull;
 
 /**
  * 文 件 名: TextWatcherRepository
@@ -88,7 +89,7 @@ public final class TextWatcherRepository extends BaseObservable
         private final TextWatcher textWatcher;
 
         TextWatcherObservable(@NonNull TextView textView, int config) {
-            this.textView = Preconditions.checkNotNull(textView);
+            this.textView = checkNotNull(textView);
             this.config = config;
 
             textWatcher = new TextWatcher() {

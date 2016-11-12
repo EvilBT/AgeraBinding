@@ -29,13 +29,10 @@ public interface TextWatcherCompilerStates {
         RFrequency<Editable> afterChanged(@NonNull TextView textView);
     }
 
-    interface RFrequency<TVal>{
+    interface RFrequency<TVal> extends RConfig<TVal>{
 
         @NonNull
         RConfig<TVal> onUpdatesPer(int millis);
-
-        @NonNull
-        RConfig<TVal> onUpdatesPerLoop();
     }
 
     interface RConfig<TVal>{

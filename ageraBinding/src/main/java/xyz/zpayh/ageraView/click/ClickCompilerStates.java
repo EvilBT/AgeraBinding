@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.google.android.agera.Observable;
+import com.google.android.agera.Updatable;
 
 import java.util.concurrent.Executor;
 
@@ -19,13 +20,10 @@ public interface ClickCompilerStates {
         RFrequency click(@NonNull View view);
     }
 
-    interface RFrequency{
+    interface RFrequency extends RFlow{
 
         @NonNull
         RFlow onUpdatesPer(int millis);
-
-        @NonNull
-        RFlow onUpdatesPerLoop();
     }
 
     interface RFlow extends RConfig{
@@ -38,5 +36,7 @@ public interface ClickCompilerStates {
 
         @NonNull
         Observable compile();
+
+        void addUpdatable(@NonNull Updatable updatable);
     }
 }

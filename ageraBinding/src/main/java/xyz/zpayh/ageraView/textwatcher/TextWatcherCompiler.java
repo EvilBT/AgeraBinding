@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.google.android.agera.Preconditions;
 import com.google.android.agera.Repository;
 
+import static com.google.android.agera.Preconditions.checkState;
 import static xyz.zpayh.ageraView.textwatcher.TextWatcherConfig.AFTER_TEXT_CHANGED;
 import static xyz.zpayh.ageraView.textwatcher.TextWatcherConfig.BEFORE_TEXT_CHANGED;
 import static xyz.zpayh.ageraView.textwatcher.TextWatcherConfig.ON_TEXT_CHANGED;
@@ -29,7 +30,7 @@ public final class TextWatcherCompiler implements
 
     @NonNull
     public static TextWatcherCompilerStates.RTextWatcher compiler(){
-        Preconditions.checkNotNull(Looper.myLooper());
+        checkState(Looper.myLooper() != null, "Can only be compiler on a Looper thread");
         TextWatcherCompiler compiler = compilers.get();
         if (compiler == null){
             compiler = new TextWatcherCompiler();
@@ -43,12 +44,18 @@ public final class TextWatcherCompiler implements
         compilers.set(compiler);
     }
 
+    private TextWatcherCompiler(){
+        this.frequency = 0;
+        this.textView = null;
+        this.whenWatcher = AFTER_TEXT_CHANGED;
+    }
+
     private int frequency;
 
     private TextView textView;
 
     @TextWatcherConfig
-    private int whenWatcher = AFTER_TEXT_CHANGED;
+    private int whenWatcher;
 
     @NonNull
     @Override
@@ -71,12 +78,6 @@ public final class TextWatcherCompiler implements
     public TextWatcherCompiler onUpdatesPer(int millis) {
         frequency = Math.max(0,millis);
         return this;
-    }
-
-    @NonNull
-    @Override
-    public TextWatcherCompiler onUpdatesPerLoop() {
-        return onUpdatesPer(0);
     }
 
     @NonNull
