@@ -19,7 +19,7 @@ allprojects {
 ```
 dependencies {
     compile 'com.github.EvilBT:AgeraBinding:v0.2'
-    compile 'com.google.android.agera:agera:1.2.0-beta3'
+    compile 'com.google.android.agera:agera:1.3.0'
 }
 ```
 **Step 3.** See this [MainActivity](https://github.com/EvilBT/AgeraBinding/blob/master/app/src/main/java/xyz/zpayh/agerabinding/MainActivity.java)
