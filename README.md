@@ -1,24 +1,15 @@
 # AgeraBinding
+[![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+[ ![Download](https://api.bintray.com/packages/sherlock/maven/agerabinding/images/download.svg) ](https://bintray.com/sherlock/maven/agerabinding/_latestVersion)
 [![](https://jitpack.io/v/EvilBT/AgeraBinding.svg)](https://jitpack.io/#EvilBT/AgeraBinding)
 
 It is an Android View binding based on Google [Agera](https://github.com/google/agera).
 
 ## Getting started
-**Step 1.** Add the JitPack repository to your build file
-
-Add it in your root build.gradle at the end of repositories:
-```
-allprojects {
-	repositories {
-		...
-		maven { url "https://jitpack.io" }
-	}
-}
-```
-**Step 2.** Add the dependency
+**Step 1.**  Add the dependency
 ```
 dependencies {
-    compile 'com.github.EvilBT:AgeraBinding:v0.2'
+    compile 'xyz.zpayh:agerabinding:0.3.0'
     compile 'com.google.android.agera:agera:1.3.0'
 }
 ```
